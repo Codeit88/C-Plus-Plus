@@ -1,0 +1,23 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int size = 20;
+    char ar[100];
+	cout << " Enter a string : ";
+	cin.getline(ar,100);
+	int i = 0;
+	while (ar[i] != '\0') {
+		cout <<ar[i];
+		i++;
+	}
+	cout << endl;
+	int start, end;
+	cout << " Enter trimming indexes : \n";
+	cin >> start >> end;
+	for (int i = 0;ar[i] != '\0';i++) {
+		if (i >= start && i <= end) {
+			cout << ar[i];
+		}
+	}
+	return 0;
+}
