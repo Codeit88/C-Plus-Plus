@@ -1,0 +1,144 @@
+/*Name:Sami Khokher
+Roll Number:21L-1868
+ASSIGNMENT:In this assignment, your task is to write a program that determines if word pairs given in an input are super-
+anagrams and if each word is an imperfect palindrome.*/
+
+
+#include<iostream>
+using namespace std;
+int length(char ar[])
+{
+	int count=0;
+	while(ar[count]!='\0')
+	{
+		count++;
+	}
+	return count;
+}
+void sort(char ar[])
+{
+	int i,j,n,temp;
+	n=length(ar);
+	for(i=0;i<n-1;i++)
+	{
+		for(j=i+1;j<n;j++)
+		{
+			if(ar[i]>ar[j])
+			{
+				temp=ar[i];
+				ar[i]=ar[j];
+				ar[j]=temp;
+			}
+		}
+	}
+}
+bool anagrams(char ar[],char br[])
+{
+	sort(ar);
+	sort(br);
+	int flag=0;
+	for(int i=0;ar[i]!='\0';i++)
+	{
+		if(ar[i]!=br[i])
+		{
+			flag=1;
+			break;
+		}
+	}
+	if(flag==1)
+	{
+		return false;
+		}
+		else
+		{
+		return true;
+		}
+}
+bool palindrome(char ar[])
+{
+	int count=0,p=0,num=0;
+while(ar[count]!='\0')
+{
+	count++;
+}
+for(int i=0;i<count;i++)
+{
+	if(ar[i]==ar[count-i-1])
+	{
+		p++;
+	}
+	else
+	{
+		num++;
+	}
+}
+if(num<3 && num!=0)
+{
+	return true;
+}
+else
+{
+	return false;
+}
+}
+int main()
+{
+char ar[100],br[20],cr[20];int s1=0,s2=0;
+ cout<<"Enter your words: ";
+ cin.getline(ar,99);
+ for(int i=0;ar[i]!=' ';i++)
+ {
+ 	br[s1]=ar[i];
+ 	s1++;
+ }
+ for(int i=s1+1;ar[i]!='\0';i++)
+ {
+ 	cr[s2]=ar[i];
+ 	s2++;
+ }
+ if(s1==s2)
+ {
+ bool cond=	palindrome(br);
+ 	bool cond1=palindrome(cr);
+ 	bool cond2=anagrams(br,cr);
+ 	if(cond==true && cond1==true && cond2==true)
+ 	{
+ 		cout<<"YES"<<" "<<"YES"<<" "<<"YES"<<endl;
+	 }
+	 else if(cond==true && cond1==true && cond2==false)
+ 	{
+ 		cout<<"YES"<<" "<<"YES"<<" "<<"NO"<<endl;
+	 }
+	 else if(cond==true && cond1==false && cond2==false)
+ 	{
+ 		cout<<"YES"<<" "<<"NO"<<" "<<"NO"<<endl;
+	 }
+	 else if(cond==false && cond1==false && cond2==false)
+ 	{
+ 		cout<<"NO"<<" "<<"NO"<<" "<<"NO"<<endl;
+	 }
+	 else if(cond==false && cond1==true && cond2==true)
+ 	{
+ 		cout<<"NO"<<" "<<"YES"<<" "<<"YES"<<endl;
+	 }
+	 else if(cond==false && cond1==true && cond2==false)
+ 	{
+ 		cout<<"NO"<<" "<<"YES"<<" "<<"NO"<<endl;
+	 }
+	 else if(cond==true && cond1==false && cond2==true)
+ 	{
+ 		cout<<"YES"<<" "<<"NO"<<" "<<"YES"<<endl;
+	 }
+	 else if(cond==false && cond1==false && cond2==true)
+ 	{
+ 		cout<<"NO"<<" "<<"NO"<<" "<<"YES"<<endl;
+	 }
+	 
+}
+ else if(s1!=s2)
+ {
+ 	cout<<"Length mismatched!"<<endl;
+ }
+ return 0;
+}
+
