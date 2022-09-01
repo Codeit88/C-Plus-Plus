@@ -1,0 +1,1911 @@
+#include<sfml/Graphics.hpp>
+#include <iostream>
+using namespace sf;
+using namespace std;
+
+class Pacman {
+private:
+	CircleShape AsifPac;
+	CircleShape bubbles[20][20];
+	RectangleShape borders[35];
+	Text t;
+	int score;
+	int lives;
+
+	float pacSpeed;
+public:
+
+	Pacman() {
+		score = 0;
+		lives = 3;
+	}
+	void setScreen() {
+		borders[1].setSize(Vector2f(660, 5));
+		borders[1].setPosition(Vector2f(20.f, 20.f));
+		borders[2].setSize(Vector2f(660, 5));
+		borders[2].setPosition(Vector2f(20.f, 380.f));
+		borders[3].setSize(Vector2f(5, 120));
+		borders[3].setPosition(Vector2f(680.f, 20.f));
+		borders[4].setSize(Vector2f(5, 120));
+		borders[4].setPosition(Vector2f(20.f, 20.f));
+		borders[5].setSize(Vector2f(5, 120));
+		borders[5].setPosition(Vector2f(20.f, 260.f));
+		borders[6].setSize(Vector2f(5, 120));
+		borders[6].setPosition(Vector2f(680, 261));
+		borders[7].setSize(Vector2f(50, 5));
+		borders[7].setPosition(Vector2f(20, 140));
+		borders[8].setSize(Vector2f(55, 5));
+		borders[8].setPosition(Vector2f(630, 140));
+		borders[9].setSize(Vector2f(50, 5));
+		borders[9].setPosition(Vector2f(20, 260));
+		borders[10].setSize(Vector2f(55, 5));
+		borders[10].setPosition(Vector2f(630, 260));
+		borders[11].setSize(Vector2f(5, 125));
+		borders[11].setPosition(Vector2f(70, 140));
+		borders[12].setSize(Vector2f(5, 125));
+		borders[12].setPosition(Vector2f(630, 140));
+		// Ghost home
+		borders[13].setSize(Vector2f(150, 5));
+		borders[13].setPosition(Vector2f(270, 190));
+		borders[14].setSize(Vector2f(150, 5));
+		borders[14].setPosition(Vector2f(270, 240));
+		borders[15].setSize(Vector2f(5, 50));
+		borders[15].setPosition(Vector2f(270, 190));
+		borders[16].setSize(Vector2f(5, 55));
+		borders[16].setPosition(Vector2f(420, 190));
+		//T border
+		borders[17].setSize(Vector2f(5, 55));
+		borders[17].setPosition(Vector2f(350, 65));
+		borders[18].setSize(Vector2f(70, 5));
+		borders[18].setPosition(Vector2f(315, 120));
+		//next borders
+		borders[19].setSize(Vector2f(200, 5));
+		borders[19].setPosition(Vector2f(265, 310));
+		borders[20].setSize(Vector2f(5, 70));
+		borders[20].setPosition(Vector2f(200, 170));
+		borders[21].setSize(Vector2f(5, 70));
+		borders[21].setPosition(Vector2f(500, 70));
+		borders[22].setPosition(Vector2f(125, 170));
+		borders[22].setSize(Vector2f(5, 146));
+
+		borders[23].setSize(Vector2f(85, 5));
+		borders[23].setPosition(Vector2f(490, 220));
+		//new
+		borders[24].setSize(Vector2f(5, 90));
+		borders[24].setPosition(Vector2f(530, 220));
+		borders[25].setSize(Vector2f(75, 5));
+		borders[25].setPosition(Vector2f(530, 310));
+		borders[26].setSize(Vector2f(45, 5));
+		borders[26].setPosition(Vector2f(85, 313));
+		borders[27].setSize(Vector2f(75, 5));
+		borders[27].setPosition(Vector2f(125, 313));
+
+		borders[28].setSize(Vector2f(50, 5));
+		borders[28].setPosition(Vector2f(570, 75));
+
+		borders[29].setSize(Vector2f(5, 60));
+		borders[29].setPosition(Vector2f(570, 75));
+		borders[30].setSize(Vector2f(80, 5));
+		borders[30].setPosition(Vector2f(80, 80));
+		borders[31].setSize(Vector2f(5, 65));
+		borders[31].setPosition(Vector2f(270, 20));
+		borders[32].setSize(Vector2f(40, 5));
+		borders[32].setPosition(Vector2f(230, 80));
+		int x = 0;
+		for (int i = 0; i < 18; i++, x += 47) {
+			for (int k = 0, j = 18; k < 20; k++, j += 37) {
+				bubbles[i][k].setRadius(5.f);
+				bubbles[i][k].setPosition(Vector2f((30 + j), (30 + x)));
+			}
+
+			cout << endl;
+
+		}
+		pacSpeed = 5;
+
+	}
+
+	void PacmanPos(Vector2u size) {
+		AsifPac.setRadius(18.f);
+		AsifPac.setPosition(AsifPac.getPosition().x + (size.x - 30) / 2, size.y - 70.f);
+	}
+
+	void color() {
+		for (int i = 0; i < 35; i++) {
+			if (i == 13) {
+				borders[i].setFillColor(Color::Magenta);
+			}
+			else borders[i].setFillColor(Color(50, 50, 250));
+
+		}
+
+		AsifPac.setFillColor(Color(255, 255, 0));
+	}
+
+	void draw(RenderWindow* window) {
+
+		for (int i = 0; i < 35; i++) {
+			window->draw(borders[i]);
+		}
+
+
+		for (int i = 0; i < 8; i++) {
+			for (int k = 0; k < 17; k++) {
+				if (bubbles[i][k].getPosition().y > borders[7].getPosition().y && bubbles[i][k].getPosition().y < borders[9].getPosition().y && bubbles[i][k].getPosition().x < borders[11].getPosition().x) {
+
+				}
+				else if (bubbles[i][k].getPosition().y > borders[8].getPosition().y && bubbles[i][k].getPosition().y < borders[10].getPosition().y && bubbles[i][k].getPosition().x > borders[12].getPosition().x) {
+
+				}
+				else if (bubbles[i][k].getPosition().y > borders[13].getPosition().y && bubbles[i][k].getPosition().y < borders[14].getPosition().y && bubbles[i][k].getPosition().x > borders[15].getPosition().x && bubbles[i][k].getPosition().x < borders[16].getPosition().x) {
+
+				}
+
+
+				else {
+					for (int x = 0; x < 35; x++) {
+						if (bubbles[i][k].getGlobalBounds().intersects(borders[x].getGlobalBounds())) {
+							bubbles[i][k].setPosition(0.f, 0.f);
+							bubbles[i][k].setRadius(0.f);
+							bubbles[i][k].setFillColor(Color::Black);
+							bubbles[1][0].setFillColor(Color::Magenta);
+							bubbles[2][9].setFillColor(Color::Magenta);
+						}
+
+						else {
+							window->draw(bubbles[i][k]);
+						}
+					}
+				}
+
+			}
+
+		}
+
+
+
+		window->draw(AsifPac);
+
+	}
+
+	void update() {
+
+		if (Keyboard::isKeyPressed(Keyboard::D)) {
+			this->AsifPac.move(pacSpeed, 0);
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::A)) {
+			this->AsifPac.move(-pacSpeed, 0);
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::W)) {
+			this->AsifPac.move(0, -pacSpeed);
+		}
+		else if (Keyboard::isKeyPressed(Keyboard::S)) {
+			this->AsifPac.move(0, pacSpeed);
+		}
+
+
+
+		this->collideObj();
+	}
+
+	void collideObj() {
+		int j = 0;
+		Vector2f playerPos = AsifPac.getPosition();
+		for (int i = 0; i < 35; i++) {
+
+			if (AsifPac.getGlobalBounds().intersects(borders[i + 1].getGlobalBounds())) {
+
+				if (i == j) {
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 28.f);
+				}
+				else if (i == 2) {
+					AsifPac.setPosition(640.f, AsifPac.getGlobalBounds().top);
+				}
+
+				else if (i == 1) {
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 340.f);
+				}
+
+
+				else if (i == 3) {
+					AsifPac.setPosition(25.f, AsifPac.getGlobalBounds().top);
+				}
+
+				else if (i == 4) {
+					AsifPac.setPosition(25.f, AsifPac.getGlobalBounds().top);
+				}
+
+				else if (i == 5) {
+					AsifPac.setPosition(640.f, AsifPac.getGlobalBounds().top);
+				}
+
+				else if (i == 6) {
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 7) {
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 8) {
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 9) {
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 10) {
+					AsifPac.setPosition(79.f, AsifPac.getGlobalBounds().top);
+				}
+
+				else if (i == 11) {
+					AsifPac.setPosition(590.f, AsifPac.getGlobalBounds().top);
+				}
+				else if (i == 12) {
+
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 150.f);
+				}
+				else if (i == 13) {
+
+					AsifPac.setPosition(AsifPac.getGlobalBounds().left, 247.f);
+				}
+				else if (i == 14) {
+					AsifPac.setPosition(233.f, AsifPac.getGlobalBounds().top);
+
+				}
+				else if (i == 15) {
+
+					AsifPac.setPosition(427.f, AsifPac.getGlobalBounds().top);
+				}
+
+				if (i == 16) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(312.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(358.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 17) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 85);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 125);
+					}
+				}
+
+				if (i == 18) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 272);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 315);
+					}
+				}
+
+				if (i == 19) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(165.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(205.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+				if (i == 20) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(463.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(505.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 21) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(87.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(130.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 22) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 183);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 225);
+					}
+				}
+
+				if (i == 23) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(495.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(535.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 24) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 275);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 317);
+					}
+				}
+
+				if (i == 25) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 275);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 320);
+					}
+				}
+
+				if (i == 26) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 275);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 320);
+					}
+				}
+
+				if (i == 27) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 40);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 83);
+					}
+				}
+
+				if (i == 28) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(531.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(575.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 29) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 40);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 87);
+					}
+				}
+
+				if (i == 30) {
+					if (AsifPac.getPosition().x < borders[i + 1].getPosition().x) {
+						AsifPac.setPosition(233.f, AsifPac.getGlobalBounds().top);
+					}
+					else {
+						AsifPac.setPosition(277.f, AsifPac.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 31) {
+					if (AsifPac.getPosition().y < borders[i + 1].getPosition().y) {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 40);
+					}
+					else {
+						AsifPac.setPosition(AsifPac.getGlobalBounds().left, 87);
+					}
+				}
+
+
+
+
+
+
+
+			}
+
+
+		}
+		for (int i = 0; i < 8; i++) {
+			for (int k = 0; k < 17; k++) {
+				if (AsifPac.getGlobalBounds().intersects(bubbles[i][k].getGlobalBounds())) {
+					bubbles[i][k].setFillColor(Color::Black);
+					score += 1;
+
+				}
+
+			}
+
+		}
+
+	}
+
+	void collideEnemy(Sprite spr1, Sprite spr2, Sprite spr3,Sprite spr4, Vector2u size) {
+		if (AsifPac.getGlobalBounds().intersects(spr1.getGlobalBounds())) {
+			AsifPac.setPosition((size.x - 30) / 2, size.y - 70.f);
+			lives -= 1;
+		}
+
+		else	if (AsifPac.getGlobalBounds().intersects(spr2.getGlobalBounds())) {
+			AsifPac.setPosition((size.x - 30) / 2, size.y - 70.f);
+			lives -= 1;
+		}
+
+		else if (AsifPac.getGlobalBounds().intersects(spr3.getGlobalBounds())) {
+			AsifPac.setPosition((size.x - 30) / 2, size.y - 70.f);
+			lives -= 1;
+		}
+
+		else if (AsifPac.getGlobalBounds().intersects(spr4.getGlobalBounds())) {
+			AsifPac.setPosition((size.x - 30) / 2, size.y - 70.f);
+			lives -= 1;
+		}
+
+	}
+
+	RectangleShape* getBorders() {
+		return borders;
+	}
+
+	CircleShape getAsif() {
+		return AsifPac;
+
+	}
+
+	void displayStats() {
+
+
+	}
+
+
+
+
+};
+
+
+class Ghost {
+public:
+	virtual void scatter() = 0;
+
+
+	virtual ~Ghost() {};
+	void collideObj() {
+
+	}
+};
+
+
+class Blinky : public Ghost {
+	Pacman p1;
+
+	RectangleShape* ss = new RectangleShape[35];
+	Texture t1;
+	Sprite sp;
+
+	float speed;
+	void initvars() {
+		speed = 0.5;
+	}
+
+	void initTexture() {
+		t1.loadFromFile("red.png");
+	}
+	void initSprite() {
+		sp.setTexture(t1);
+		sp.scale(0.07f, 0.07f);
+		sp.setPosition(275.f, 200.f);
+	}
+public:
+	Blinky() {
+
+		p1.setScreen();
+		ss = p1.getBorders();
+		this->initTexture();
+		this->initSprite();
+	}
+	void update(RenderWindow* ti) {
+		this->scatter();
+		this->updatewindowscoll(ti);
+
+	}
+
+	void updatewindowscoll(RenderWindow* win) {
+		int j = 0;
+		for (int i = 0; i < 35; i++) {
+
+			if (sp.getGlobalBounds().intersects(ss[i + 1].getGlobalBounds())) {
+
+				if (i == j) {
+
+					moveLeft();
+				}
+				else if (i == 2) {
+					moveLeft();
+				}
+
+				else if (i == 1) {
+					sp.setPosition(sp.getGlobalBounds().left, 340.f);
+				}
+
+
+				else if (i == 3) {
+					sp.setPosition(25.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 4) {
+					sp.setPosition(25.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 5) {
+					sp.setPosition(640.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 6) {
+					sp.setPosition(sp.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 7) {
+					sp.setPosition(sp.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 8) {
+					sp.setPosition(sp.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 9) {
+					sp.setPosition(sp.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 10) {
+					sp.setPosition(79.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 11) {
+					sp.setPosition(590.f, sp.getGlobalBounds().top);
+				}
+				else if (i == 12) {
+
+
+				}
+
+
+				else if (i == 13) {
+
+
+				}
+				else if (i == 14) {
+					if (sp.getPosition().x > ss[i + 1].getPosition().x) {
+						sp.move(0.5, -0.5);
+					}
+
+					else {
+						sp.move(-0.5, -0.5);
+					}
+
+				}
+				else if (i == 15) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x)
+						sp.move(-0.5, -0.5);
+					else if (sp.getPosition().x > ss[i + 1].getPosition().x) {
+						sp.move(1, -0.5);
+					}
+				}
+
+				if (i == 16) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(350.f, 30.f);
+					}
+					else {
+						sp.move(0.5, -0.5);
+					}
+				}
+
+				if (i == 17) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.move(0.5, -0.5);
+					}
+					else {
+						sp.move(-0.5, 0.5);
+					}
+				}
+
+				if (i == 18) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 310.f);
+					}
+					else {
+						sp.move(-0.5, 0.5);
+					}
+				}
+
+				if (i == 19) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x)
+						sp.setPosition(200, 170);
+					else if (sp.getPosition().x > ss[i + 1].getPosition().x) {
+						sp.move(1, -0.5);
+					}
+
+				}
+
+				if (i == 20) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x)
+						sp.setPosition(504, 110);
+
+
+					else if (sp.getPosition().x > ss[i + 1].getPosition().x) {
+						sp.move(1, -0.5);
+					}
+				}
+
+				if (i == 21) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x)
+						sp.setPosition(130, 125);
+
+
+					else if (sp.getPosition().x > ss[i + 1].getPosition().x) {
+						sp.move(1, -0.5);
+					}
+				}
+
+				if (i == 22) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.move(-0.5, -0.5);
+					}
+					else {
+						sp.move(-0.5, 0.5);
+					}
+				}
+
+				if (i == 23) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x)
+						sp.setPosition(535, 270);
+
+
+					else if (sp.getPosition().x > ss[i + 1].getPosition().x) {
+						sp.move(1, -0.5);
+					}
+				}
+
+				if (i == 24) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 318.f);
+					}
+					else {
+						sp.move(0.5, 0.5);
+					}
+				}
+
+				if (i == 25) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 318.f);
+					}
+					else {
+						sp.move(-0.5, 0.5);
+					}
+				}
+
+				if (i == 26) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 318.f);
+					}
+					else {
+						sp.move(-0.5, 0.5);
+					}
+				}
+
+				if (i == 27) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.move(0.5, -0.5);
+					}
+					else {
+						sp.move(-0.5, 0.5);
+					}
+				}
+
+				if (i == 28) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(531.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(575.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 29) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 87);
+					}
+				}
+
+				if (i == 30) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(233.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(277.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 31) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 87);
+					}
+				}
+
+			}
+
+
+
+		}
+
+
+
+
+	}
+	Sprite get() {
+		return sp;
+	}
+	void chase(CircleShape asif) {
+		int j = 0;
+
+
+
+
+		if (asif.getPosition().x < sp.getPosition().x && !(sp.getGlobalBounds().intersects(ss[16].getGlobalBounds()))) {
+			scatterLeft();
+		}
+
+
+		else if (asif.getPosition().y < sp.getPosition().y) {
+			scatterUp();
+		}
+
+
+
+		else if (asif.getPosition().y > sp.getPosition().y) {
+			scatterDown();
+		}
+
+
+		else if (asif.getPosition().x > sp.getPosition().x) {
+			scatterRight();
+
+		}
+
+
+
+
+
+
+
+
+	}
+
+
+
+
+
+
+	void scatterRight() {
+
+		sp.move(0.5, 0);
+	}
+
+	void scatterDown() {
+
+		sp.move(0, 0.5);
+	}
+	void scatterUp() {
+
+		sp.move(0, -0.5);
+	}
+
+	void scatter() {
+		sp.move(0.5, 0);
+	}
+
+
+	void scatterLeft() {
+
+		sp.move(-0.5, 0);
+	}
+
+	void moveLeft() {
+		sp.move(1, 0.5);
+	}
+
+
+	void render(RenderWindow* win) {
+		//this->scatter();
+		this->updatewindowscoll(win);
+
+		win->draw(sp);
+	}
+
+	Sprite getsprite() {
+		return sp;
+	}
+	virtual ~Blinky() {
+	
+		delete[] ss;
+	};
+};
+
+
+
+class Pinky : public Ghost {
+	Pacman p1;
+	RectangleShape* ss = new RectangleShape[30];
+	Texture t2;
+	Sprite sp;
+	float speed;
+
+	void initvars() {
+		speed = 0.5;
+	}
+
+	void initTexture() {
+		t2.loadFromFile("blue.png");
+	}
+	void initSprite() {
+		sp.setTexture(t2);
+		sp.scale(0.02f, 0.02f);
+		sp.setPosition(305.f, 200.f);
+	}
+public:
+	Pinky() {
+		this->initvars();
+		this->initTexture();
+		this->initSprite();
+		p1.setScreen();
+		ss = p1.getBorders();
+	}
+	void update(RenderWindow* ti) {
+		this->scatter();
+		this->updatewindowscoll(ti);
+	}
+	void updatewindowscoll(const RenderWindow* ti) {
+		int j = 0;
+		for (int i = 0; i < 35; i++) {
+
+			if (sp.getGlobalBounds().intersects(ss[i + 1].getGlobalBounds())) {
+
+				if (i == j) {
+					sp.setPosition(sp.getGlobalBounds().left, 28.f);
+				}
+				else if (i == 2) {
+					sp.setPosition(640.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 1) {
+					sp.setPosition(sp.getGlobalBounds().left, 340.f);
+				}
+
+
+				else if (i == 3) {
+					sp.setPosition(25.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 4) {
+					sp.setPosition(25.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 5) {
+					sp.setPosition(640.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 6) {
+					sp.setPosition(sp.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 7) {
+					sp.setPosition(sp.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 8) {
+					sp.setPosition(sp.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 9) {
+					sp.setPosition(sp.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 10) {
+					sp.setPosition(79.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 11) {
+					sp.setPosition(590.f, sp.getGlobalBounds().top);
+				}
+				else if (i == 12) {
+
+					sp.setPosition(sp.getGlobalBounds().left, 150.f);
+				}
+				else if (i == 13) {
+
+					sp.setPosition(sp.getGlobalBounds().left, 247.f);
+				}
+				else if (i == 14) {
+					sp.setPosition(233.f, sp.getGlobalBounds().top);
+
+				}
+				else if (i == 15) {
+
+					sp.setPosition(427.f, sp.getGlobalBounds().top);
+				}
+
+				if (i == 16) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(312.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(358.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 17) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 85);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 125);
+					}
+				}
+
+				if (i == 18) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 272);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 315);
+					}
+				}
+
+				if (i == 19) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(165.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(205.f, sp.getGlobalBounds().top);
+					}
+				}
+				if (i == 20) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(463.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(505.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 21) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(87.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(130.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 22) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 183);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 225);
+					}
+				}
+
+				if (i == 23) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(495.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(535.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 24) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 275);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 317);
+					}
+				}
+
+				if (i == 25) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 275);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 320);
+					}
+				}
+
+				if (i == 26) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 275);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 320);
+					}
+				}
+
+				if (i == 27) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 83);
+					}
+				}
+
+				if (i == 28) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(531.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(575.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 29) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 87);
+					}
+				}
+
+				if (i == 30) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(233.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(277.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 31) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 87);
+					}
+				}
+
+			}
+
+		}
+
+	}
+
+	void scatter() {
+		int i = 0;
+		for (i; i < 3; i++) {
+			if (sp.getPosition().y > ss[12].getPosition().y + 14) {
+				sp.move(0, -0.5);
+			}
+
+			else if (sp.getPosition().y == ss[12].getPosition().y + 10 && sp.getPosition().x < 520.f) {
+				sp.move(0.5, 0);
+			}
+
+			else if (sp.getPosition().x == 520.f && sp.getPosition().y > 30.f) {
+				sp.move(0, -0.5);
+			}
+
+			else if (sp.getPosition().y == 30.f && sp.getPosition().x < 640.f) {
+				sp.move(0.5, 0);
+			}
+
+			else if (sp.getPosition().x == 640.f && sp.getPosition().y < 100.f) {
+				sp.move(0, 0.5);
+			}
+
+			else if (sp.getPosition().y == 100.f && sp.getPosition().x > 590) {
+				sp.move(-0.5, 0);
+			}
+
+			else if (sp.getPosition().x == 590 && sp.getPosition().y < ss[11].getPosition().y + 13) {
+				sp.move(0, 0.5);
+			}
+
+			else if (sp.getPosition().y == ss[11].getPosition().y + 13 && sp.getPosition().x > 520.f) {
+				sp.move(-0.5, 0);
+			}
+
+			/*else if (sp.getPosition().x == 520.f && sp.getPosition().y > ss[11].getPosition().y + 5) {
+				sp.move(0, -0.5);
+			}*/
+		}
+	}
+	void render(RenderWindow* win) {
+		this->scatter();
+		this->updatewindowscoll(win);
+		win->draw(sp);
+	}
+
+	Sprite getSpr() {
+		return sp;
+	}
+	virtual ~Pinky() {};
+};
+
+
+class Inky : public Ghost {
+	Pacman p1;
+	RectangleShape* ss = new RectangleShape[35];
+	Texture t2;
+	Sprite sp;
+	float speed;
+
+	void initvars() {
+		speed = 0.5;
+	}
+
+	void initTexture() {
+		t2.loadFromFile("green.png");
+	}
+	void initSprite() {
+		sp.setTexture(t2);
+		sp.scale(0.08f, 0.08f);
+		sp.setPosition(370.f, 196.f);
+	}
+public:
+	Inky() {
+		this->initvars();
+		this->initTexture();
+		this->initSprite();
+		p1.setScreen();
+		ss = p1.getBorders();
+	}
+	void update(RenderWindow* ti) {
+		this->scatter();
+		this->updatewindowscoll(ti);
+	}
+
+
+	void updatewindowscoll(const RenderWindow* ti) {
+		int j = 0;
+		for (int i = 0; i < 35; i++) {
+
+			if (sp.getGlobalBounds().intersects(ss[i + 1].getGlobalBounds()) && i != 12) {
+
+
+				if (sp.getPosition().x > ss[i + 1].getPosition().x || sp.getPosition().x < ss[i + 1].getPosition().x) {
+					this->scatterVertical();
+
+				}
+
+				else 	if (!sp.getPosition().y > ss[i + 1].getPosition().y) {
+
+					this->scatterHorizontal();
+				}
+
+
+
+			}
+
+
+		}
+
+	}
+
+
+
+	/*if (i == j) {
+		sp.setPosition(sp.getGlobalBounds().left, 28.f);
+	}
+	else if (i == 2) {
+		sp.setPosition(640.f, sp.getGlobalBounds().top);
+	}
+
+	else if (i == 1) {
+		sp.setPosition(sp.getGlobalBounds().left, 340.f);
+	}
+
+
+	else if (i == 3) {
+		sp.setPosition(25.f, sp.getGlobalBounds().top);
+	}
+
+	else if (i == 4) {
+		sp.setPosition(25.f, sp.getGlobalBounds().top);
+	}
+
+	else if (i == 5) {
+		sp.setPosition(640.f, sp.getGlobalBounds().top);
+	}
+
+	else if (i == 6) {
+		sp.setPosition(sp.getGlobalBounds().left, 97.f);
+	}
+
+	else if (i == 7) {
+		sp.setPosition(sp.getGlobalBounds().left, 97.f);
+	}
+
+	else if (i == 8) {
+		sp.setPosition(sp.getGlobalBounds().left, 270.f);
+	}
+
+	else if (i == 9) {
+		sp.setPosition(sp.getGlobalBounds().left, 270.f);
+	}
+
+	else if (i == 10) {
+		sp.setPosition(79.f, sp.getGlobalBounds().top);
+	}
+
+	else if (i == 11) {
+		sp.setPosition(590.f, sp.getGlobalBounds().top);
+	}
+	/*else if (i == 12) {
+
+		sp.setPosition(sp.getGlobalBounds().left, 150.f);
+	}
+	else if (i == 13) {
+
+		sp.setPosition(sp.getGlobalBounds().left, 247.f);
+	}
+	else if (i == 14) {
+		sp.setPosition(233.f, sp.getGlobalBounds().top);
+
+	}
+	else if (i == 15) {
+
+		sp.setPosition(427.f, sp.getGlobalBounds().top);
+	}
+
+	if (i == 16) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(312.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(358.f, sp.getGlobalBounds().top);
+		}
+	}
+
+	if (i == 17) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 85);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 125);
+		}
+	}
+
+	if (i == 18) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 272);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 315);
+		}
+	}
+
+	if (i == 19) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(165.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(205.f, sp.getGlobalBounds().top);
+		}
+	}
+	if (i == 20) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(463.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(505.f, sp.getGlobalBounds().top);
+		}
+	}
+
+	if (i == 21) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(87.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(130.f, sp.getGlobalBounds().top);
+		}
+	}
+
+	if (i == 22) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 183);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 225);
+		}
+	}
+
+	if (i == 23) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(495.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(535.f, sp.getGlobalBounds().top);
+		}
+	}
+
+	if (i == 24) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 275);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 317);
+		}
+	}
+
+	if (i == 25) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 275);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 320);
+		}
+	}
+
+	if (i == 26) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 275);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 320);
+		}
+	}
+
+	if (i == 27) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 40);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 83);
+		}
+	}
+
+	if (i == 28) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(531.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(575.f, sp.getGlobalBounds().top);
+		}
+	}
+
+	if (i == 29) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 40);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 87);
+		}
+	}
+
+	if (i == 30) {
+		if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+			sp.setPosition(233.f, sp.getGlobalBounds().top);
+		}
+		else {
+			sp.setPosition(277.f, sp.getGlobalBounds().top);
+		}
+	}
+
+	if (i == 31) {
+		if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+			sp.setPosition(sp.getGlobalBounds().left, 40);
+		}
+		else {
+			sp.setPosition(sp.getGlobalBounds().left, 87);
+		}
+	}*/
+
+
+
+
+
+
+
+
+
+	void scatterHorizontal() {
+		sp.move(Vector2f(speed, 0));
+
+	}
+
+	void scatterVertical() {
+		sp.move(Vector2f(0, -speed));
+	}
+
+	void scatter() {
+		/*//	Vector2f pos = ss[8].getPosition();
+		//	scatterVertical();
+
+			//int j = 0;
+			//for (int i = 0; i < 35; i++) {
+
+
+			//if (sp.getGlobalBounds().intersects(ss[12].getGlobalBounds())) {
+
+
+				//scatterVertical();
+					if (sp.getPosition().x > ss[i + 1].getPosition().x || sp.getPosition().x < ss[i + 1].getPosition().x) {
+						this->scatterVertical();
+
+					}
+
+					else 	if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+
+						this->scatterHorizontal();
+					}*/
+
+		for (int i = 0; i < 3; i++) {
+			if (sp.getPosition().y > ss[11].getPosition().y - 12) {
+				sp.move(0, -0.5);
+			}
+
+			else if (sp.getPosition().y == ss[11].getPosition().y - 12 && sp.getPosition().x > 170.f) {
+				sp.move(-0.5, 0);
+			}
+
+			else if (sp.getPosition().x == 170.f && sp.getPosition().y > 30.f) {
+				sp.move(0, -0.5);
+			}
+
+			else if (sp.getPosition().y == 30.f && sp.getPosition().x > 30.f) {
+				sp.move(-0.5, 0);
+			}
+
+			else if (sp.getPosition().x == 30.f && sp.getPosition().y < 100.f) {
+				sp.move(0, 0.5);
+			}
+
+			else if (sp.getPosition().x < 170.f) {
+				sp.move(0.5, 0);
+			}
+
+
+		}
+
+	}
+
+
+
+	//	}
+//}
+
+	void render(RenderWindow* win) {
+		this->scatter();
+		//this->scatter
+		win->draw(sp);
+	}
+
+	Sprite getSpr() {
+		return sp;
+	}
+
+	virtual ~Inky() {
+	
+		delete[] ss;
+	
+	};
+};
+
+class Clyde : public Ghost {
+	Pacman p1;
+	RectangleShape* ss = new RectangleShape[30];
+	Texture t2;
+	Sprite sp;
+	float speed;
+
+	void initvars() {
+		speed = 0.5;
+	}
+
+	void initTexture() {
+		t2.loadFromFile("yellow2.png");
+	}
+	void initSprite() {
+		sp.setTexture(t2);
+		sp.scale(0.08f, 0.08f);
+		sp.setPosition(335.f, 196.f);
+	}
+public:
+	Clyde() {
+		this->initvars();
+		this->initTexture();
+		this->initSprite();
+		p1.setScreen();
+		ss = p1.getBorders();
+	}
+	void update(RenderWindow* ti) {
+		this->scatter();
+		this->updatewindowscoll(ti);
+	}
+	void updatewindowscoll(const RenderWindow* ti) {
+		int j = 0;
+
+		for (int i = 0; i < 35; i++) {
+
+			if (sp.getGlobalBounds().intersects(ss[i + 1].getGlobalBounds())) {
+
+				if (i == j) {
+					sp.setPosition(sp.getGlobalBounds().left, 28.f);
+				}
+				else if (i == 2) {
+					sp.setPosition(640.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 1) {
+					sp.setPosition(sp.getGlobalBounds().left, 340.f);
+				}
+
+
+				else if (i == 3) {
+					sp.setPosition(25.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 4) {
+					sp.setPosition(25.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 5) {
+					sp.setPosition(640.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 6) {
+					sp.setPosition(sp.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 7) {
+					sp.setPosition(sp.getGlobalBounds().left, 97.f);
+				}
+
+				else if (i == 8) {
+					sp.setPosition(sp.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 9) {
+					sp.setPosition(sp.getGlobalBounds().left, 270.f);
+				}
+
+				else if (i == 10) {
+					sp.setPosition(79.f, sp.getGlobalBounds().top);
+				}
+
+				else if (i == 11) {
+					sp.setPosition(590.f, sp.getGlobalBounds().top);
+				}
+				else if (i == 12) {
+
+					/*sp.setPosition(sp.getGlobalBounds().left, 150.f);*/
+				}
+				else if (i == 13) {
+
+					sp.setPosition(sp.getGlobalBounds().left, 247.f);
+				}
+				else if (i == 14) {
+					sp.setPosition(233.f, sp.getGlobalBounds().top);
+
+				}
+				else if (i == 15) {
+
+					sp.setPosition(427.f, sp.getGlobalBounds().top);
+				}
+
+				if (i == 16) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(312.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(358.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 17) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 85);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 125);
+					}
+				}
+
+				if (i == 18) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 272);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 315);
+					}
+				}
+
+				if (i == 19) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(165.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(205.f, sp.getGlobalBounds().top);
+					}
+				}
+				if (i == 20) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(463.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(505.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 21) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(87.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(130.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 22) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 183);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 225);
+					}
+				}
+
+				if (i == 23) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(495.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(535.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 24) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 275);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 317);
+					}
+				}
+
+				if (i == 25) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 275);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 320);
+					}
+				}
+
+				if (i == 26) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 275);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 320);
+					}
+				}
+
+				if (i == 27) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 83);
+					}
+				}
+
+				if (i == 28) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(531.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(575.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 29) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 87);
+					}
+				}
+
+				if (i == 30) {
+					if (sp.getPosition().x < ss[i + 1].getPosition().x) {
+						sp.setPosition(233.f, sp.getGlobalBounds().top);
+					}
+					else {
+						sp.setPosition(277.f, sp.getGlobalBounds().top);
+					}
+				}
+
+				if (i == 31) {
+					if (sp.getPosition().y < ss[i + 1].getPosition().y) {
+						sp.setPosition(sp.getGlobalBounds().left, 40);
+					}
+					else {
+						sp.setPosition(sp.getGlobalBounds().left, 87);
+					}
+				}
+
+			}
+
+		}
+
+
+	}
+
+
+
+	void scatterHoriztal() {
+		sp.move(Vector2f(speed, 0));
+
+	}
+
+	void scatterVertical() {
+		sp.move(Vector2f(0, speed));
+	}
+
+
+	void scatter() {
+		for (int i = 0; i < 3; i++) {
+			if (sp.getPosition().x > ss[13].getPosition().x-50) {
+				sp.move(-0.5, -0.2);
+			}
+
+			else if (sp.getPosition().x == ss[13].getPosition().x - 50 && sp.getPosition().x > 220.f) {
+
+				sp.move(-0.5, 0);
+			}
+
+			else if (sp.getPosition().x == 220.f && sp.getPosition().y < 330.f)
+			{
+				sp.move(0, 0.5);
+			}
+
+			else if (sp.getPosition().y == 330.f && sp.getPosition().y > 120.f ) {
+				sp.move(0, -0.5);
+			}
+			
+				
+			
+
+		}
+
+	}
+
+	Sprite getSpr() {
+		return sp;
+	}
+	void render(RenderWindow* win) {
+		this->scatter();
+		this->updatewindowscoll(win);
+		win->draw(sp);
+	}
+	virtual ~Clyde() {
+		delete[] ss;
+	};
+};
+
+
+
+
+class Game {
+	RenderWindow* win;
+	Event ev;
+	Pacman paccy;
+	Blinky blik;
+	Pinky pink;
+	Inky ink;
+	Clyde cly;
+	//Ghost1 gst;
+
+	void initvar() {
+		this->win = nullptr;
+	}
+	void initwindow() {
+		this->win = new RenderWindow(VideoMode(700, 400), "PACMAN", Style::Titlebar | Style::Close);
+		this->win->setFramerateLimit(60);
+	}
+public:
+	Game() {
+		this->initvar();
+		this->initwindow();
+		paccy.setScreen();
+		paccy.PacmanPos(win->getSize());
+		paccy.color();
+	}
+	const bool running()const
+	{
+		return this->win->isOpen();
+	}
+	void pollevents() {
+		while (this->win->pollEvent(this->ev))
+		{
+			if (ev.type == Event::Closed)
+				this->win->close();
+		}
+	}
+	void update() {
+		this->pollevents();
+	}
+	void render() {
+
+		paccy.update();
+		this->win->clear();
+		paccy.draw(this->win);
+
+		//gst.draw(this->win);
+		//blik.scatter();
+		blik.render(this->win);
+		blik.chase(paccy.getAsif());
+		paccy.collideEnemy(blik.getsprite(), pink.getSpr(), ink.getSpr(),cly.getSpr(), win->getSize());
+		pink.render(this->win);
+		ink.render(this->win);
+		cly.render(this->win);
+		this->win->display();
+	}
+	virtual ~Game() {
+		delete this->win;
+	}
+};
+int main() {
+	//srand(static_cast<unsigned>(time(0)));
+	Game g;
+	while (g.running())
+	{
+		g.update();
+		g.render();
+	}
+	return 0;
+}
+
+/*main() {
+
+	sf::Event ev;
+
+	RenderWindow window(VideoMode(700, 400), "SFML");
+	//Pacman p(window.getSize());
+	//p.color();
+
+	while (window.isOpen()) {
+		while (window.pollEvent(ev)) {
+			if (ev.type == sf::Event::Closed) {
+				window.close();
+			}
+		}
+
+		//update
+
+		window.clear();
+	//	p.update();
+	//	p.draw(window);
+
+		window.display();
+	}
+	return 0;
+}*/
