@@ -1,0 +1,38 @@
+#include<iostream>
+using namespace std;
+void swap(int *x,int *y)
+{
+	int *temp=x;
+	x=y;
+	y=temp;
+}
+void sort(int *ar,int size)
+{
+ for(int i=0;i<size;i++)
+{
+	for(int j=i+1;j<size;j++)
+	{
+		if(ar[i]>ar[j])
+		swap(ar[i],ar[j]);
+	}
+}	
+}
+int main()
+{
+	int size;
+cout<<"Enter your array size: ";
+cin>>size;
+int *str=new int[size];
+cout<<"Your elements would be: \n";
+for(int i=0;i<size;i++)
+{
+	cin>>str[i];
+}
+sort(str,size);
+cout<<"Your sorted array would be: \n";
+for(int i=0;i<size;i++)
+{
+	cout<<" "<<str[i];
+}
+ return 0;
+}
