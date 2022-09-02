@@ -1,0 +1,57 @@
+#include<iostream>
+using namespace std;
+int* minCol_wise(int** str, int rows, int cols)
+{
+	int i;
+	int* ztr = new int[cols];
+	for (i = 0;i < rows;i++)
+	{
+		int min = str[0][i];
+		for (int j = 1;j < cols;j++)
+		{
+			if (str[j][i] < min)
+			{
+				min = str[j][i];
+			}
+		}
+		ztr[i] = min;
+
+	}
+	delete[]str;
+	return ztr;
+}
+int main()
+{
+	int rows, cols;
+	cout << "Enter your rows:\n";
+	cin >> rows;
+	cout << "Enter your columns:\n";
+	cin >> cols;
+	int** ptr = new int* [rows];
+	for (int i = 0;i < rows;i++)
+	{
+		ptr[i] = new int[cols];
+	}
+	cout << "Enter your values:\n";
+	for (int i = 0;i < rows;i++)
+	{
+		for (int j = 0;j < cols;j++)
+		{
+			cin >> ptr[i][j];
+		}
+	}
+	for (int i = 0;i < rows;i++)
+	{
+		for (int j = 0;j < cols;j++)
+		{
+			cout << " " << ptr[i][j];
+		}
+		cout << endl;
+	}
+	cout << "Your minimum column elements will be: \n";
+	int* str = minCol_wise(ptr, rows, cols);
+	for (int i = 0;i < cols;i++)
+		cout << " " << str[i];
+	return 0;
+}
+
