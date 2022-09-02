@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+long val1=200000,val2,obj;
+long *longptr=&obj;
+cout<<*longptr<<endl;
+*longptr=val1;
+cout<<*longptr<<endl;
+*longptr=val2;
+cout<<*longptr<<endl;
+cout<<&val1;
+long **p=&longptr;
+cout<<*p;
+//No! ,value address of val1 and its address cannot be same..
+ return 0;
+}
+
