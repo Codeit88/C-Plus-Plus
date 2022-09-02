@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+	int num,power,res=1;
+ cout<<"Enter num:";
+ cin>>num;
+ cout<<"Enter power:";
+ cin>>power;
+ for(int i=1;i<=power;i++)
+ {
+ 	res*=num;
+ }
+ cout<<res;
+ return 0;
+}
+
