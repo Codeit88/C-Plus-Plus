@@ -1,0 +1,27 @@
+#include<iostream>
+using namespace std;
+void growar(int* ar)
+{
+	int* br = new int[10];
+	for (int i = 0;i < 10;i++)
+	{
+		br[i] = ar[i];
+		if (i >= 5)
+			cin >> br[i];
+	}
+	delete[]ar;
+	cout << "Enlarged array would be: \n";
+
+	for (int i = 0;i < 10;i++)
+		cout << " " << br[i];
+}
+int main()
+{
+	int* oldar = new int[5];
+	cout << "Enter elements: \n";
+	for (int i = 0;i < 5;i++)
+		cin >> oldar[i];
+	growar(oldar);
+	return 0;
+}
+
