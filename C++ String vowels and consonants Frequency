@@ -1,0 +1,61 @@
+#include<iostream>
+using namespace std;
+int main() {
+	char* ar = new char[100];int k = 0, ca = 0, ce = 0, ci = 0, co = 0, cu = 0, vowels = 0, consonants = 0;
+	cout << " Enter your string :";
+	cin.getline(ar, 99);
+	while (ar[k] != '\0') {
+		k++;
+	}
+	for (k = 0;ar[k] != '\0';k++) {
+		if (ar[k] == 'a' || ar[k] == 'A') {
+			ca++;
+		}
+		else if (ar[k] == 'e' || ar[k] == 'E') {
+			ce++;
+		}
+		else if (ar[k] == 'i' || ar[k] == 'I') {
+			ci++;
+		}
+		else if (ar[k] == 'o' || ar[k] == 'O') {
+			co++;
+		}
+		else if (ar[k] == 'u' || ar[k] == 'U') {
+			cu++;
+		}
+	}
+	for (k = 0;ar[k] != '\0';k++) {
+		if (ar[k] == 'a' || ar[k] == 'e' || ar[k] == 'i' ||
+			ar[k] == 'o' || ar[k] == 'u' || ar[k] == 'A' ||
+			ar[k] == 'E' || ar[k] == 'I' || ar[k] == 'O' ||
+			ar[k] == 'U')
+		{
+			++vowels;
+		}
+		else if ((ar[k] >= 'a' && ar[k] <= 'z') || (ar[k] >= 'A' && ar[k] <= 'Z'))
+		{
+			++consonants;
+		}
+	}
+	cout << " Total vowles = " << vowels << endl;
+	cout << " Total consonants = " << consonants << endl;
+	//int *freq=new int[5];
+	int freq[5] = { ca,ce,ci,co,cu };
+	char vowelskh[5] = { 'a','e','i','o','u' };
+	for (int i = 0;i < 5;i++) {
+		for (int j = i + 1;j < 5;j++) {
+			if (freq[i] < freq[j]) {
+				int temp = freq[i];
+				freq[i] = freq[j];
+				freq[j] = temp;
+				int temp_c = vowelskh[i];
+				vowelskh[i] = vowelskh[j];
+				vowelskh[j] = temp_c;
+			}
+		}
+	}
+	for (int i = 0;i < 5;i++) {
+		cout << vowelskh[i] << " repetance " << freq[i] << endl;
+	}
+	return 0;
+}
