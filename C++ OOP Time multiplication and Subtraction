@@ -1,0 +1,112 @@
+/* Add to the time class of Q # 1 the ability to subtract two time values using the overloaded(-) operator,and to
+multiply a time value by a number of type float, using the overloaded(*) operator.*/
+#include<iostream>
+using namespace std;
+class Time {
+	float hour, minute, second;
+public:
+	Time();
+	Time(float h, float m, float s);                      //float function for multiplication
+	void disp();
+	void operator++();
+	void operator--();
+	Time operator*(float c) {
+		Time temp;
+		temp.hour = hour * c;
+		temp.minute = minute * c;
+		temp.second = second * c;
+		return temp;
+		return temp;
+	}
+	void inputtime() {
+		cout << " Enter hours : ";cin >> hour;                    //input within class
+		cout << " Enter mins : ";cin >> minute;
+		cout << " Enter seconds : ";cin >> second;
+	}
+	void correcttime() {                                       //time correction
+		if (hour == 23 && minute == 60) {
+			hour = 0;
+			minute = 0;
+		}
+		else if (hour == 24 || hour == 12) {
+			if (minute == 60) {
+				hour = 1;
+				minute = 0;
+			}
+			else
+				hour = 0;
+		}
+		if (minute == 60) {
+			hour += 1;
+			minute = 00;
+		}
+		else if (second == 60) {
+			second == 00;
+			minute += 1;
+		}
+		if ((hour > 24 || hour < 0) || (minute > 60 || minute < 0) || (second < 0 || second>60)) {                      //time exceptions
+			cout << " Invalid inputs ";
+			//goto top;                                                                              
+		}
+	}
+	Time operator-(Time& c) {
+		Time temp;
+		temp.hour = hour - c.hour;
+		temp.minute = minute - c.minute;
+		temp.second = second - c.second;
+		return temp;
+	}
+	Time operator++(int a) {
+		Time temp;
+		temp.hour = hour++;                                               //pre incrementation
+		temp.minute = minute++;
+		temp.second = second++;
+		return temp;
+	}
+	Time operator--(int a) {
+		Time temp;
+		temp.hour = hour--;
+		temp.minute = minute--;
+		temp.second = second--;
+		return temp;
+	}
+};
+Time::Time() {
+	hour = minute = second = 0;
+}
+Time::Time(float h, float m, float s) {                                        //default setter
+	hour = h;
+	minute = m;
+	second = s;
+}
+void Time::operator++() {
+	++hour;
+	++minute;
+	++second;
+}
+void Time::operator--() {
+	--hour;
+	--minute;
+	--second;
+}
+
+void Time::disp() {
+	cout << " " << hour << " : " << minute << " : " << second;
+}
+int main() {
+	float m;
+	Time t1, t2, t3, t4;
+	t1.inputtime();
+	t1.correcttime();
+	cout << " Enter the integer you want time to multiply with : ";                    //multiplication time
+	cin >> m;
+	t3 = t1 * m;
+	cout << " Multiplication is : ";t3.disp();cout << endl;
+	cout << " Enter second time : ";cout << endl;
+	t2.inputtime();
+	t2.correcttime();                                     // timer preciser
+	t4 = t1 - t2;
+	cout << " Where minus '-' sign indicates the past gone time . \n";
+	cout << " Subtraction is : ";t4.disp();
+	return 0;
+}
