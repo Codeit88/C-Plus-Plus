@@ -1,0 +1,41 @@
+//Write a function named firstLast2 that takes as input an array of integers and an
+//integer that specifies how many entries are in the array. The function should return
+//true if the array starts or ends with the digit 2. Otherwise it should return false. Test
+//your function with arrays of different length and with the digit 2 at the beginning
+//of the array, end of the array, middle of the array, and missing from the array.
+#include<iostream>
+using namespace std;
+bool firstLast2();
+bool firstLast2()
+{
+	int size, ar[100];
+	cout << "Enter size of array:" << endl;
+	cin >> size;
+	for (int i = 0;i < size;i++)
+	{
+		cin >> ar[i];
+	}
+	if (ar[0] == 2 || ar[size - 1] == 2)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+int main()
+{
+	int size, ar[100];
+	bool cond = firstLast2();
+	if (cond == true)
+	{
+		cout << "True";
+	}
+	else
+	{
+		cout << "False";
+	}
+
+	return 0;
+}
