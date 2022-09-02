@@ -1,0 +1,32 @@
+#include<iostream>
+using namespace std;
+void secondlarge(int size)
+{
+	int *ptr=new int[size];
+	for(int i=0;i<size;i++)
+	{
+		cin>>ptr[i];
+	}
+for(int i=0;i<size;i++)
+{
+	for(int j=i+1;j<size;j++)
+	{
+		if(ptr[i]<ptr[j])
+		{
+			int temp=ptr[i];
+			ptr[i]=ptr[j];
+			ptr[j]=temp;
+		}
+	}
+}
+	cout<<"Second largest element is : "<<ptr[1];
+}
+int main()
+{
+ int size;
+ cout<<"Enter your size:";
+ cin>>size;
+ cout<<"Enter your array elements:\n";
+ secondlarge(size);
+ return 0;
+}
