@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+int main(){
+	int size;
+cout<<"Enter your array size: ";
+cin>>size;
+int *ar=new int[size];
+for(int i=0;i<size;i++){
+	cin>>ar[i];
+}
+cout<<"Index\t\tValues\t\tHistogram"<<endl;
+for(int i=0;i<size;i++){
+	cout<<i<<"\t\t"<<ar[i]<<"\t\t";
+	for(int j=0;j<ar[i];j++){
+		cout<<"*";
+	}
+	cout<<endl;
+}
+return 0;
