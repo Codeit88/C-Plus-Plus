@@ -1,0 +1,17 @@
+#include<iostream>
+using namespace std;
+circulatoryshift(int *x,int *y,int *z){
+	int temp=*z;
+	*z=*y;
+	*y=*x;
+	*x=temp;
+}
+int main(){
+int a,b,c;
+cout<<"Enter your values to circulatory shift: \n";
+cin>>a>>b>>c;
+circulatoryshift(&a,&b,&c);
+cout<<"After the shift values are: ";
+cout<<"c = "<<a<<" ,b = "<<b<<" ,a = "<<c;
+return 0;
+}
