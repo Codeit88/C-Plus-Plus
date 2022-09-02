@@ -1,0 +1,18 @@
+#include<iostream>
+using namespace std;
+int main()
+{
+int i,j,k,h;
+cout<<"Enter your pyramid height: ";
+cin>>h;
+for(i=1;i<=h;i++)
+{
+	for(j=h-1;j>=i;j--)
+	cout<<" ";
+	for(k=1;k<=i;k++)
+	cout<<" "<<"*";
+	cout<<endl;
+}
+ return 0;
+}
+
