@@ -1,0 +1,21 @@
+#include<iostream>
+using namespace std;
+struct Stack{
+	int size,top,*ar;
+};
+int topget(Stack*s){
+	return s->top;
+}
+void push(Stack*s,int val){
+	s->top+=1;
+	s->ar[s->top]=val;
+}
+int main(){
+Stack *s;//=new Stack[sizeof(Stack)];
+s->size=8;
+s->top=-1;
+s->ar=new int[s->size*sizeof(int)];
+//push(s,81);
+cout<<topget;
+return 0;
+}
