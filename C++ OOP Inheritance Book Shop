@@ -1,0 +1,109 @@
+/*Assume that the publisher in Exercises 4 and 5 decides to add a third way to distribute books: on computer
+disk, for those who like to do their reading on their laptop. Add a disk class that, like book and tape, is derived
+from publication. The disk class should incorporate the same member functions as the other classes. The data item
+unique to this class is the disk type: either CD or DVD.*/
+#include<iostream>
+using namespace std;
+int size1 = 50;
+class Publication {                         //parent class
+	char* name;
+	float price;
+public:
+	Publication() {
+		name = new char[size1];
+		name = NULL;
+		price = 0;
+	}
+	void getdetails() {                       //getter function
+		name = new char[size1];
+		cout << " Enter Book Name : ";
+		cin.getline(name, size1);
+		cout << " Enter the Price : ";
+		cin >> price;
+	}
+	void putdetails() {
+		cout << " Book Name is : ";                      //put details function
+		for (int i = 0;name[i] != '\0';i++) {
+			cout << name[i];
+		}
+		cout << endl;
+		cout << " Book Price would be : " << price << endl;
+	}
+};
+class Sales {
+	float sales[3];
+public:
+	void getsales() {
+		for (int i = 1;i <= 3;i++) {
+			cout << " Enter Dollar sales of Book in " << i << " month : ";   //sales function
+			cin >> sales[i];
+		}
+	}
+	void putsales() {
+		for (int i = 1;i <= 3;i++) {
+			cout << " Sales of Book in " << i << " month is : " << sales[i] << endl;
+		}
+	}
+};
+class Book :public Sales, public Publication {                      //mutiple inheritance
+	int pagecount;
+public:
+	Book() {
+		pagecount = 0;
+	}
+	void getpages() {
+		cout << " Enter Book Pages : ";
+		cin >> pagecount;
+	}
+	void putpages() {
+		cout << " Book Pages are : " << pagecount << endl;
+	}
+};
+class Tape :public Sales, public Publication {                       //mmultiple parents for class
+	float playtime;
+public:
+	Tape() :playtime(0) {
+	}
+	void getplaytime() {
+		cout << " Enter the Play Time : ";
+		cin >> playtime;
+	}
+	void putplaytime() {
+		cout << " Playtime is : " << playtime << " minutes " << endl;
+	}
+};
+class Disktype :public Publication {
+	char input;
+public:
+	void getdisk() {
+		cout << " What type of Disktype Volume have : \n";
+		cout << " A : CD \n";
+		cout << " B : DVD \n";
+		cin >> input;
+	}
+	void putdisk() {
+		if (input == 'a' || input == 'A') {                 //asking for a disktype
+			cout << " DISK Type is : CD ";
+		}
+		else
+			cout << " DISK Type is : DVD ";
+	}
+};
+
+int main() {
+	Book b1;
+	Tape t1;
+	Disktype d1;
+	b1.getdetails();
+	b1.getpages();
+	t1.getplaytime();                                    //ensuring the function usage by all different objects
+	b1.getsales();
+	d1.getdisk();
+	cout << ".................................................\n";
+	b1.putdetails();
+	b1.putpages();
+	t1.putplaytime();
+	b1.putsales();
+	d1.putdisk();
+	return 0;
+}
