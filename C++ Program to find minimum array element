@@ -1,0 +1,13 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int ar[5] = { 9,6,5,4,8 };
+	int min = ar[0];
+	for (int i = 0;i < 5;i++) {
+		if (ar[i] < min) {
+			min = ar[i];
+		}
+	}
+	cout << min;
+	return 0;
+}
