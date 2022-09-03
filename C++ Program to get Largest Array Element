@@ -1,0 +1,13 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int ar[5] = { 9,6,5,4,8 };
+	int max = ar[0];
+	for (int i = 0;i < 5;i++) {
+		if (ar[i] > max) {
+			max = ar[i];
+		}
+	}
+	cout << max;
+	return 0;
+}
