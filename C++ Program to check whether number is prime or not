@@ -1,0 +1,19 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int num = 11,flag=0;
+	for (int i = 2;i <= (num / 2);i++) {
+		if (num % i == 0) {
+			flag++;
+			break;
+		}
+		else
+			flag = 0;
+	
+	if (flag == 0) {
+		cout << " Number is prime \n";
+	}
+	else if (flag > 0) {
+		cout << " Number is not prime \n";
+	}
+}
