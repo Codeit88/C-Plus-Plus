@@ -1,0 +1,9 @@
+#include<iostream>
+using namespace std;
+int main() {
+	const int n = 7; 
+	int ar[n] = { 6,5,4,7,1,8,2 };
+	for (int i = 1;i <= n;i+=2) {
+		cout << " "<<ar[i];
+	}
+}
