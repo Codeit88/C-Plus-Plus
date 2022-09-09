@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+class Ndarray {
+	int* ptr;
+	int totaldims, * dim, memorylen;
+public:
+	Ndarray(int* dim, int totaldims) {
+		this->memorylen = 1;
+		//this->dim = new int[totaldims];
+		this->dim = dim;
+		this->totaldims = totaldims;
+		for (int i = 0;i < totaldims;i++) {
+			this->memorylen *= dim[i];
+		}
+		ptr = new int[this->memorylen];
+		for (int i = 0;i < this->memorylen;i++) {
+			this->ptr[i] = i;
+		}
+	}
+	Ndarray(Ndarray& obj) {
+		this->memorylen = obj.memorylen;
+		this->ptr = new int[this->memorylen];
+		for (int i = 0;i < this->memorylen;i++) {
+			this->ptr[i] = obj.ptr[i];
+		}
+	}
+	void Insert(int value, int* location) {
+		int loc = 0;
+		for (int i = 0;i < totaldims-1;i++) {
+			int temp = 1;
+			for (int j = i+1;j < totaldims;j++) {
+				temp*= dim[j];
+			}
+			loc += temp * (location[i]);
+		}
+		cout << loc;
+			/*int loc = 0;
+			for (int i = 0; i < totaldims - 1; i++)
+			{
+				int temp = 1;
+				for (int j = i + 1; j < totaldims; j++)
+				{
+					temp = temp * dim[j];
+				}
+				loc += (temp * location[i]);
+			}
+			loc++;
+			cout << loc << endl;
+			ptr[loc] = value;
+			cout << ptr[loc];*/
+	}
+	friend ostream& operator<<(ostream& op, Ndarray&ob) {
+		op << " Your array is : ";
+		for (int i = 0;i < ob.memorylen;i++) {
+			op << " " << ob.ptr[i];
+		}
+		op << endl;
+		return op;
+	}
+};
+int main() {
+	int dimensions;
+	cout << " Enter your total dimensions : \n";
+	cin >> dimensions;
+	cout << endl;
+	int* br{ new int[dimensions] {3,2,2} };
+	/*cout << " Enter your dimensions \n";
+	br = new int[dimensions];
+	for (int i = 0;i < dimensions;i++) {
+		cin >> br[i];
+	}*/
+	int a[] = { 2,2,2 };
+	Ndarray n1(br, dimensions);
+	cout << n1;
+	n1.Insert(4, a);
+	cout << endl;
+	cout << n1<<endl;
+	system("pause");
+	return 0;
+}
