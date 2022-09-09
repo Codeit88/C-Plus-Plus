@@ -1,0 +1,20 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int rows, cols;
+	int ar[3][5] = { {1,32,25,44,25},
+				 {1,4,3,43,225},
+				 {31,24,35,343,025} };
+	for (int i = 0;i < 3;i++) {
+		for (int j = 0;j < 5;j++) {
+			cout << ar[i][j] << "\t";
+		}
+		cout << endl;
+	}
+	cout << " Enter the indexes : \n";
+	cin >> rows >> cols;
+	int loc = (rows * 5) + cols;
+	cout << "Location is : " << loc << endl;
+	cout << "Element at " << rows << " " << cols << " is " << ar[rows][cols] << endl;
+	return 0;
+}
