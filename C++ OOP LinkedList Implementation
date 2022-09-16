@@ -1,0 +1,184 @@
+#include <iostream>
+using namespace std;
+class Linklist{
+public:
+	class Node{
+	int data;
+	Node*next;
+	public:
+		Node(){}
+		Node(Node*next,int data){
+		this->data=data;
+		this->next=next;
+		}
+		friend class Linklist;
+	};
+private:
+	Node*head,*tail;
+public:
+	Linklist(){
+	head=tail=nullptr;
+	}
+	void insertonhead(int val){
+	if(head==nullptr)
+		{
+	Node*temp=new Node;
+	temp->data=val;
+	temp->next=NULL;
+	head=temp;
+	tail=temp;
+	}
+	else {
+	Node*temp=new Node;
+    temp->data=val;
+	temp->next=head;
+	head=temp;
+	}
+	}
+	void Deletefromhead(){
+	head=head->next;
+	}
+	void Deletefromtail(){
+	Node*prev=head,*curr=head;
+	while(curr->next!=nullptr){
+	prev=curr;
+	curr=curr->next;
+	}
+	prev->next=nullptr;
+	tail=prev;
+	}
+	void insertatail(int value)
+{
+	Node* node = new Node;
+	node->data=value;
+	if (head == nullptr)
+	{
+	node->next=nullptr;
+	head=node;
+	tail=node;
+	}
+	else {
+		node->next=nullptr;
+		tail->next=node;
+		tail=node;
+	}
+
+}
+int getsize(){
+int count=0;
+Node*temp=head;
+while(temp!=nullptr){
+count++;
+temp=temp->next;
+}
+return count;
+}
+void getMiddle()
+{
+  Node *current=head;
+  int middle = getsize();
+  //cout<<middle;
+  middle=middle/2;
+  int x=0;
+  while(x!=middle)
+  {
+     current=current->next;
+ x++;
+  }
+  cout<< current->data<<endl;
+}
+bool isempty(){
+	if(head==nullptr){
+	return true;
+	}
+	else
+		return false;
+}
+void disp(){
+		Node*temp=head;
+	if(head!=nullptr){
+		while(temp!=nullptr)
+	{
+		cout<<"->"<<temp->data;
+	    temp=temp->next;
+	}
+	}
+}
+int getAverage(){
+
+
+
+
+
+
+}
+void insertAfter(int val,int key){
+Node *current = head;
+while(current->data!=key){
+current=current->next;
+}
+
+Node *n = new Node;
+n->data=val;
+n->next=current->next;
+current=n;
+
+}
+int getMax(){
+Node *current = head;
+int max=0;
+int s=getsize();
+while(current!=nullptr){
+
+if(max<current->data){
+max=current->data;
+}
+
+current=current->next;
+}
+return max;
+}
+int getMin(){
+Node *current = head;
+int min=0;
+int s=getsize();
+while(current!=nullptr){
+
+if(min>current->data){
+min=current->data;
+}
+
+current=current->next;
+}
+return min;
+}
+};
+int main(){
+	Linklist l1;
+	l1.insertonhead(8);
+	l1.insertonhead(16);
+	l1.insertonhead(48);
+	l1.insertonhead(87);
+	l1.insertonhead(54);
+	l1.insertonhead(21);
+	l1.disp();
+	cout<<endl;
+	cout<<l1.getsize()<<endl;
+	cout<<endl;
+	l1.insertatail(41);
+	l1.disp();
+	l1.Deletefromhead();
+	cout<<endl;
+	l1.disp();
+		cout<<endl;
+			l1.Deletefromtail();
+	l1.disp();
+	cout<<endl;
+	l1.getMiddle();
+	cout<<endl;
+	cout<<l1.getMax();
+	cout<<endl;
+	cout<<l1.getMin();
+			system("pause");
+	return 0;
+}
