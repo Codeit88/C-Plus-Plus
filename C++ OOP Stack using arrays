@@ -1,0 +1,64 @@
+#include<iostream>
+using namespace std;
+class Stack{
+int *arr;
+int top;
+int size;
+public:
+	Stack(){
+		this->top=-1;
+		this->size=0;
+	    arr=new int[size];
+	  }
+	void push(int value){
+	size++;
+		if(size<=5)
+		{top++;
+	arr[top]=value;
+	}
+	else
+		cout<<" Size full "<<endl;
+	}
+		bool isempty(){
+	if(top==-1)
+		return true;
+	return false;
+	}
+			void pop(){
+	top--;
+	}
+			int topmost(int &val){
+if(top==-1)
+cout<<" No stack data "<<endl;
+val=arr[top];
+return arr[top];
+}
+	void print(){
+	for(int i=top;i>=0;i--){
+	cout<<arr[i]<<"\t";
+	}
+	cout<<endl;
+	}
+	~Stack(){
+//delete []arr;
+//top--;
+	}
+};
+int main(){
+	Stack s1;
+	s1.push(4);
+		s1.push(6);
+	s1.push(8);
+		s1.push(7);
+	s1.push(2);
+	s1.print();
+	s1.pop();
+	s1.print();
+	s1.pop();
+	s1.print();
+	int b;
+	int a=s1.topmost(b);
+	cout<<a;
+	system("pause");
+	return 0;
+}
