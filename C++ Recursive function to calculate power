@@ -1,0 +1,13 @@
+#include<iostream>
+using namespace std;
+int pow(int num,int power) {
+	if (power == 0) {
+		return 1;
+	}
+	int calc = pow(num, power - 1);
+	return num * calc;
+}
+int main() {
+	cout << pow(4, 3);
+	return 0;
+}
