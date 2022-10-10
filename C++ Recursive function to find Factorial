@@ -1,0 +1,13 @@
+#include<iostream>
+using namespace std;
+int fact(int num) {
+	if (num == 0) {
+		return 1;
+	}
+	int calc = fact(num-1);
+	return num * calc;
+}
+int main() {
+	cout << fact(6);
+	return 0;
+}
