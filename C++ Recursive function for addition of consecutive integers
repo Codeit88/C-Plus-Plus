@@ -1,0 +1,12 @@
+#include<iostream>
+using namespace std;
+int summ(int x) {
+	if (x == 0)
+		return 0;
+	int prv = summ(x - 1);
+	return x + prv;
+}
+int main() {
+	cout << summ(3);
+	return 0;
+}
