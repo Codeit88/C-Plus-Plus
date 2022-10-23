@@ -1,0 +1,82 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int expense=0,budget;
+	bool taxfiler=false,mats=false,visors=false,trunktray=false;
+	char a;
+	cout << " Enter your Budget : ";
+	cin >> budget;
+	cout << " Enter your Tax filer status : \n";
+	cout << " 1: Yes \n";
+	cout << " 2: No \n";
+	cin >> a;
+	if (a == '1')
+		taxfiler = true;
+	if (taxfiler == true)
+		expense += 25000;
+	else
+	cout << "................... Select the features you want ..................... \n";
+    cout << " Enter your Mode : \n";
+	cout << " 1: Automatic \n";
+	cout << " 2: Manual \n";
+	cin >> a;
+	if (a == '1')
+		expense += 389000;
+	else
+		expense += 376900;
+	cout << " Infotainment System : \n";
+	cout << " 1: With Navigation \n";
+	cout << " 2: Without Navigation \n";
+	cin >> a;
+	if (a == '1')
+		expense += 59500;
+	else
+		expense += 8000;
+	cout << " Fog Lights : \n";
+	cout << " 1: Halogen \n";
+	cout << " 2: LED \n";
+	cin >> a;
+	if (a == '1')
+		expense += 2000;
+	else
+		expense += 5000;
+	cout << " High grade Interior : \n";
+	cout << " 1: Leather seats \n";
+	cout << " 2: Sofa seats \n";
+	cin >> a;
+	if (a == '1')
+		expense += 45000;
+	else
+		expense += 25000;
+	cout << " Floor Mats : \n";
+	cout << " 1: Yes \n";
+	cout << " 2: No \n";
+	cin >> a;
+	if (a == '1')
+		taxfiler = true;
+	if (taxfiler == true)
+		expense += 60000;
+	cout << " Door Visors : \n";
+	cout << " 1: Yes \n";
+	cout << " 2: No \n";
+	cin >> a;
+	if (a == '1')
+		taxfiler = true;
+	if (taxfiler == true)
+		expense += 60000;
+	cout << "Trunk Tray : \n";
+	cout << " 1: Yes \n";
+	cout << " 2: No \n";
+	cin >> a;
+	if (a == '1')
+		taxfiler = true;
+	if (taxfiler == true)
+		expense += 8500;
+	if (expense > budget)
+		cout << " Sorry! You cant afford it.";
+	else {
+		cout << " Total expense : " << expense << endl;
+		cout << " You have a good taste,go for it ! ";
+	}
+	return 0;
+}
