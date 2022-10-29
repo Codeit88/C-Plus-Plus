@@ -1,44 +1,39 @@
 #include<iostream>
 using namespace std;
-bool checksum(int*arr,int &size,int k,int j,int m,int counter) {
-	if (counter == (size-2)) {
-		return false;
-	}
-	//int* arr{ new int[7] {2,7,3,11,5,99,6} };
-
-	else if (arr[k] + arr[j] == arr[m]) {
+bool checksum(int* arr, int size, int flag, int i, int j, int k) {
+	if (flag == 1) {
 		return true;
 	}
-	else if(m == size) {
-		m = j + 1;
-		k += 1;
-		j += 1;
-		counter += 1;
+	else if (arr[i] + arr[j] == arr[k] && i < k && j < k && j != k && i != j) {
+		return checksum(arr, size, flag + 1, i, j, k);
 	}
-	else if(m>j)
-		return checksum(arr,size,k,j+1,m,counter);
-	else if(j==m && k<j)
-		return checksum(arr, size, k+1, j, m, counter);
-	k = 0;
-	j = 1;
-	return checksum(arr, size, k , j, m+1, counter);
-
+	else if (arr[i] + arr[j] != arr[k] && j < k) {
+		return checksum(arr, size, flag, i, j + 1, k);
+	}
+	else if (arr[i] + arr[j] != arr[k] && j == k && i < k) {
+		return checksum(arr, size, flag, i + 1, i + 2, k);
+	}
+	else if (arr[i] + arr[j] != arr[k] && i == k && j == k || j > k) {
+		i = 0;
+		return checksum(arr, size, flag, i, i + 1, k + 1);
+	}
+	else {
+		cout << " Sum not found !";
+		return false;
+	}
 }
 int main() {
-	int* arr=new int[100], size;
-	cout << " Enter size : ";
+	int size;
+	cout << "Enter the size : ";
 	cin >> size;
-	cout << " Enter the values : \n";
-	for (int i = 0;i < size;i++) {
+	int* arr = new int[size];
+	cout << " Enter the elements : \n";
+	for (int i = 0; i < size; i++) {
 		cin >> arr[i];
 	}
-	/*int size = 7;
-	int* arr{ new int[7] {2,7,3,11,13,99,6} };*/
-	bool check = checksum(arr,size,0,1,2,0);
-	if (check == true) {
-		cout << " Yes sum exists !";
+	bool found = checksum(arr, size, 0, 0, 1, 2);
+	if (found == true) {
+		cout << " Sum is found ! ";
 	}
-	else
-		cout << " No sum doesnt exist !";
 	return 0;
 }
