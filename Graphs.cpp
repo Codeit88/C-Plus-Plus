@@ -127,10 +127,5 @@ int main() {
 	cout<<endl;
 	cout << g1.getOutdegree(0);
 	cout<<endl;
-	g1.printAllAdjc(3);
-	if(g1.isComplete())
-	cout<<"han";
-	else
-	cout<<"fkoff";
 	return 0;
 }
