@@ -190,10 +190,10 @@ public:
 				wrapper_DFS(x);
 			}
 			else if (x.get_next_node()) {
-					x++;
-					//x = Matrix[*x]->get_head();
-					wrapper_DFS(x);
-				}
+				x++;
+				//x = Matrix[*x]->get_head();
+				wrapper_DFS(x);
+			}
 		}
 	}
 	void status_reset() {
@@ -206,17 +206,17 @@ public:
 			}
 		}
 	}
-	void DFS(int start,int visit[]) {
+	void DFS(int start, int visit[]) {
 		cout << start << " ";
 		visit[start] = 1;
 		for (list<int>::listiterator x(Matrix[start]->get_head());x != NULL;x++) {
-			if (visit[*x]==1);
+			if (visit[*x] == 1);
 			else {
-				DFS(*x,visit);
+				DFS(*x, visit);
 			}
 		}
 	}
-	void BFS(int start){
+	void BFS(int start) {
 		queue<int>q1;
 		int* visit = new int[vertices];
 		q1.push(start);
@@ -229,7 +229,7 @@ public:
 			for (list<int>::listiterator x(Matrix[node]->get_head());x != NULL;x++) {
 				if (visit[*x] != 1) {
 					visit[*x] = 1;
-					q1.push(* x);
+					q1.push(*x);
 				}
 			}
 		}
@@ -284,18 +284,23 @@ public:
 		return false;
 	}
 	bool is_SC() {
-		for (int i = 0; i < vertices; i++){
+		for (int i = 0; i < vertices; i++) {
 			if (!Is_Connected(i))
 				return false;
 		}
 		return true;
 	}
 	bool isCylic(int start, int visit[]) {
+		static int counter = 0;
 		visit[start] = 1;
 		for (list<int>::listiterator x(Matrix[start]->get_head());x != NULL;x++) {
+			counter++;
 			if (visit[*x] == 1) {
-				cout << *x << " has caused cycle \n";
-				return true;
+				if (counter > 1)
+				{
+					cout << *x << " has caused cycle \n";
+					return true;
+				}
 			}
 			else {
 				DFS(*x, visit);
@@ -321,14 +326,15 @@ int main() {
 
 	int visit[6];
 	//g1.DFS(1,visit);
-	for (int i = 0; i < 6; i++){
+	for (int i = 0; i < 6; i++) {
 		cout << i << "th DFS traversal is : ";
-		g1.DFS(i,visit);
+		g1.DFS(i, visit);
 		cout << endl;
 		for (int j = 0; j < 6; j++)
 		{
 			visit[j] = 0;
 		}
 	}
+	g1.isCylic(0, visit);
 	return 0;
 }
