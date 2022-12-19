@@ -12,7 +12,7 @@ public:
 	public:
 		T  data;int time;
 		node* next;
-		node(T data,int time) {
+		node(T data, int time) {
 			this->next = NULL;
 			this->data = data;
 			this->time = time;
@@ -79,7 +79,7 @@ public:
 
 	//Other Functions of Link list
 	void  printList();
-	void  InsertatTail(T value,int time);
+	void  InsertatTail(T value, int time);
 	list() { head = NULL; tail = NULL; }
 private:
 	node* head;
@@ -99,10 +99,10 @@ void list<T>::printList()
 	cout << "NULL" << endl;
 }
 template <typename T>
-void list<T>::InsertatTail(T value,int time)
+void list<T>::InsertatTail(T value, int time)
 {
 	v1.push_back(value);
-	node* nnode = new node(value,time);
+	node* nnode = new node(value, time);
 	if (head == NULL)
 	{
 		head = nnode;
@@ -120,19 +120,19 @@ private:
 	int vertices;// total number of vertices
 	bool isDirected; // 0 for undirected, 1 for directed
 public:
-	Graphs(int vertices, bool isDirected,int *time) {
+	Graphs(int vertices, bool isDirected, int* time) {
 		this->vertices = vertices;
 		this->isDirected = isDirected;
 		this->Matrix = new list<int> *[this->vertices];
 		for (int i = 0; i < this->vertices; i++) {
 			Matrix[i] = new list<int>;
-			Matrix[i]->InsertatTail(i,time[i]);
+			Matrix[i]->InsertatTail(i, time[i]);
 		}
 	}
-	bool addEdge(int x, int y,int xtime,int ytime) {
-			Matrix[x]->InsertatTail(y,ytime);
-			Matrix[y]->InsertatTail(x,xtime);
-			return true;
+	bool addEdge(int x, int y, int xtime, int ytime) {
+		Matrix[x]->InsertatTail(y, ytime);
+		Matrix[y]->InsertatTail(x, xtime);
+		return true;
 	}
 	void get_cases(int start) {
 		queue<int>q1;
@@ -142,15 +142,15 @@ public:
 		while (!q1.empty()) {
 			int node = q1.front();
 			q1.pop();
+			cout << node << " ";
 			visit[node] = 1;
 			for (list<int>::listiterator x(Matrix[node]->get_head());x != NULL;x++) {
 				if (visit[*x] != 1) {
 					visit[*x] = 1;
 					if (x.get_time() > Matrix[node]->get_head()->time) {
-						cout << *x << " has covid case ! \n";
+						q1.push(*x);
+						//x.get_node()->time = x.get_time();
 					}
-					else break;
-					q1.push(*x);
 				}
 			}
 		}
@@ -163,10 +163,10 @@ public:
 	}
 };
 int main() {
-	int* time1{ new int [3]{2,4,7} };
-	Graphs g1(3,0,time1);
-	g1.addEdge(0, 1, 2, 4);
-	g1.addEdge(1, 2, 4, 3);
+	int* time1{ new int [3] {2,4,7} };
+	Graphs g1(3, 0, time1);
+	g1.addEdge(0, 1, 2, 1);
+	g1.addEdge(1, 2, 4, 6);
 	g1.get_cases(0);
 	return 0;
 }
