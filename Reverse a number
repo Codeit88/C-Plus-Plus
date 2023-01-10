@@ -1,0 +1,22 @@
+#include<iostream>
+using namespace std;
+ int reverse(long int x) {
+ 	int flag=0;
+    if (x < 0) {
+        flag = 1;
+        x *= -1;
+     }
+       int rev=0,num=0;
+        while(x!=0){
+        num=x%10;
+        rev = num + 10 * rev;
+        x=x/10;
+    }
+    if(flag==1)
+    rev=rev*-1;
+        return rev;
+    }
+int main(){
+	cout<<reverse(432);
+return 0;
+}
