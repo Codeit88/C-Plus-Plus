@@ -1,0 +1,32 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+using namespace std;
+
+int main() {
+    int size = 20,lb=(size-1)/2, rb = lb;
+    for (int i = 0; i < size; i++) {
+        if (i < (size / 2)-1) {
+            for (int j = 0; j < size; j++) {
+                if (j >= lb && j <= rb)
+                    cout << "*";
+                else
+                    cout << " ";
+            }
+            lb--;
+            rb++;
+            cout << "\n";
+        }
+        else {
+            for (int j = 0; j < size; j++) {
+                if (j >= lb && j <= rb)
+                    cout << "*";
+                else
+                    cout << " ";
+            }
+            lb++;
+            rb--;
+            cout << "\n";
+        }
+    }
+    return 0;
+}
