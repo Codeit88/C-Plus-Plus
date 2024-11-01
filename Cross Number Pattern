@@ -1,0 +1,18 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+
+int main() {
+    // Write C++ code here
+    std::cout << "Try programiz.pro\n" ;
+    
+    for(int i=1;i<10;i++){
+        for(int j=0;j<=10;j++){
+            int minj=i;
+            int maxj=10-i;
+            if((j==minj || j==maxj)|| (j==minj || j==maxj)) std::cout<<j;
+            else printf(" ");
+        }
+        printf("\n");
+    }
+    return 0;
+}
