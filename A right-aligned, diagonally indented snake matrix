@@ -1,0 +1,35 @@
+// Online C++ compiler to run C++ program online
+#include <iostream>
+
+using namespace std;
+
+int main() {
+  int n = 4, starter = (n / 2) + 1, m = 0, k = 0;
+  bool reverse = false;
+  for (int i = 0; i < n; i++) {
+    if (i != 0) {
+      if (i % 2 != 0) k = (m + n + 2);
+      else {
+        m = (k + n);
+      };
+    }
+    for (int j = 0; j < n * 2; j++) {
+      if (j < starter || j > (starter + n)) {
+        cout << "          ";
+      } else {
+        if (i % 2 == 0) {
+          m++;
+          cout << m << "         ";
+        } else {
+          k--;
+          cout << k << "         ";
+        }
+      }
+    }
+
+    starter--;
+    cout << endl;
+  }
+
+  return 0;
+}
